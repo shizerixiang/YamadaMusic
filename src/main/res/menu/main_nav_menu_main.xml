@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--android:checkableBehavior="single" group的选中状态属性-->
+    <group>
+        <item
+            android:id="@+id/nav_design"
+            android:title="@string/nav_item_design"/>
+        <item
+            android:id="@+id/nav_search"
+            android:title="@string/nav_item_search"/>
+        <item
+            android:id="@+id/nav_listen"
+            android:title="@string/nav_item_listen"/>
+        <item
+            android:id="@+id/nav_night"
+            android:title="@string/nav_item_night"/>
+        <item
+            android:id="@+id/nav_custom"
+            android:title="@string/nav_item_custom"/>
+    </group>
+
+    <item android:title="@string/nav_group">
+        <menu>
+            <item
+                android:id="@+id/nav_option"
+                android:title="@string/nav_item_option"/>
+            <item
+                android:id="@+id/nav_exit"
+                android:title="@string/nav_item_exit"/>
+        </menu>
+    </item>
+
+</menu>

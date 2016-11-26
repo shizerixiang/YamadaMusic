@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="baseBarColor">#333333</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="activity_main_tab_under_line">#99ff00ff</color>
+    <color name="activity_main_tab_text_selected">#00ff00</color>
+    <color name="activity_main_tab_text">#333333</color>
+    <color name="activity_main_bg">#ffffff</color>
+    <color name="nav_bg">#333333</color>
+    <color name="nav_text_color">#ffffff</color>
+    <color name="nav_header_color">#aaaaaa</color>
+    <color name="main_under_bg">#aaaaaa</color>
+    <color name="under_text_color">#ffffff</color>
+    <color name="play_activity_bg_center">#66666666</color>
+    <color name="play_activity_bg_end">#77999999</color>
+    <color name="play_activity_bg_start">#99111111</color>
+    <color name="play_header_music_name_color">#ffffff</color>
+    <color name="play_header_music_singer_color">#88ffffff</color>
+    <color name="index_list_divider">#707070</color>
+    <color name="local_list_item_title">#333333</color>
+    <color name="local_list_item_singer">#99333333</color>
+    <color name="play_list_clear">#b666</color>
+    <color name="play_list_under_line">#555</color>
+    <color name="play_list_music_name">#333</color>
+    <color name="notification_title">#ee333333</color>
+    <color name="notification_artist">#aa333333</color>
+</resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:paddingTop="8dp"
+        android:textSize="18sp"
+        android:textColor="@color/play_list_music_name"
+        android:paddingStart="10dp"
+        android:paddingEnd="4dp"
+        android:text="@string/main_under_music_name"
+        android:id="@+id/play_list_item_music_name"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="14dp"
+        android:textSize="12sp"
+        android:textColor="@color/play_list_clear"
+        android:text="@string/main_under_singer_name"
+        android:id="@+id/play_list_item_singer_name"
+        android:layout_toEndOf="@id/play_list_item_music_name"/>
+
+        <!--事件拦截，按钮将事件拦截，未发送给listView-->
+    <ImageButton
+        android:layout_width="36dp"
+        android:layout_height="40dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/play_list_delete_image"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/play_list_delete"
+        android:scaleType="fitCenter"
+        android:id="@+id/play_list_delete"/>
+
+</RelativeLayout>
