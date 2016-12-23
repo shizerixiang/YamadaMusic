@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--弹出框头部-->
+    <include layout="@layout/dialog_menu_header" />
+
+    <!--分割线-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/bg_activity_black"/>
+
+    <!--操作菜单列表-->
+    <ListView
+        android:id="@+id/dialog_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/bg_activity_black"
+        android:dividerHeight="1px"
+        android:scrollbars="none"/>
+
+</LinearLayout>

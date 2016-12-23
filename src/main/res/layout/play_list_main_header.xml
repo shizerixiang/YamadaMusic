@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_marginBottom="2dp"
+    android:background="@android:color/white"
+    android:elevation="@dimen/header_shadow"
+    android:orientation="horizontal"
+    tools:showIn="@layout/activity_play_list_main">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2" />
+
+    <TextView
+        android:id="@+id/play_list_title"
+        android:layout_width="0dp"
+        android:layout_height="22dp"
+        android:layout_weight="1"
+        android:text="@string/play_list_title"
+        android:textAlignment="center"
+        android:textColor="@color/activity_main_tab_text"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/play_list_clear"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/play_list_clear"
+        android:textAlignment="center"
+        android:textColor="@color/play_list_clear"
+        android:textSize="14sp" />
+
+</LinearLayout>

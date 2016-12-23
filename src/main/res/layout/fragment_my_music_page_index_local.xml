@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingStart="10dp"
-    android:paddingEnd="10dp"
-    android:background="#fff">
+    android:layout_height="match_parent">
+
+    <include android:id="@+id/toolbar_title"
+        layout="@layout/activity_toolbar"/>
+
+    <include android:id="@+id/play_item_all"
+        layout="@layout/play_item_all"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_below="@id/toolbar_title"/>
+
+    <View
+        android:id="@+id/play_all_under_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/play_item_all"
+        android:background="@color/bg_activity_black"/>
 
     <ListView
+        android:id="@+id/fragment_my_music_index_local_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/play_all_under_line"
         android:divider="@color/index_list_divider"
         android:dividerHeight="0.4dp"
-        android:scrollbars="none"
-        android:id="@+id/fragment_my_music_index_local_list"/>
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="none"/>
 
 </RelativeLayout>

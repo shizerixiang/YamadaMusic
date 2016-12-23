@@ -1,53 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#fff">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <TextView
-        android:layout_width="40dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="8dp"
-        android:text="00"
-        android:textSize="16sp"
-        android:textColor="@color/index_list_divider"
+        android:id="@+id/my_music_index_local_item_id"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        android:focusable="false"
+        android:gravity="center"
+        android:text="@string/number"
         android:textAlignment="center"
-        android:paddingTop="14dp"
-        android:id="@+id/my_music_index_local_item_id"/>
+        android:textColor="@color/index_list_divider"
+        android:textSize="16sp"/>
 
-    <RelativeLayout
+    <include layout="@layout/local_item_music_title" />
+
+    <ImageButton
+        android:id="@+id/my_music_local_item_action"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_weight="1">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="这是歌曲名称"
-            android:textSize="18sp"
-            android:textColor="@color/local_list_item_title"
-            android:id="@+id/my_music_index_local_item_title"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="这是歌手名称"
-            android:textSize="16sp"
-            android:textColor="@color/local_list_item_singer"
-            android:layout_below="@id/my_music_index_local_item_title"
-            android:id="@+id/my_music_index_local_item_singer"/>
-
-    </RelativeLayout>
-
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="54dp"
-        android:layout_weight="0.15"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="10dp"
-        android:src="@drawable/music_action_icon"
-        android:id="@+id/my_music_local_item_action"/>
+        android:layout_height="64dp"
+        android:layout_weight="0.2"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/add_play_list"
+        android:focusable="false"
+        android:scaleType="fitCenter"
+        android:src="@drawable/menu_icon_black_n"/>
 
 </LinearLayout>

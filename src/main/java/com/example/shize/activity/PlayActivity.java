@@ -4,31 +4,35 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
+import android.graphics.Color;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shize.fragment.R;
 import com.example.shize.service.MusicPlayerService;
-import com.example.shize.util.uiutil.DialogUtil;
-import com.example.shize.util.uiutil.ImageUtil;
+import com.example.shize.util.PlayerUtil;
+
+import static com.example.shize.service.MusicPlayerService.MUSIC_URL;
+import static com.example.shize.util.PlayerUtil.ImageUtil.getArtImage;
+import static com.example.shize.util.PlayerUtil.ImageUtil.getMiniPlayImage;
+import static com.example.shize.util.PlayerUtil.ImageUtil.toRoundBitmap;
 
 /**
  * 播放音乐界面
  * Created by shize on 2016/11/14.
  */
-public class PlayActivity extends AppCompatActivity {
+public class PlayActivity extends TransparentActivity {
 
-    private static final String TAG="yamada_music_play";
+    private static final String TAG = "yamada_music_play";
     private Toolbar toolbar;
     private ImageButton playBtn;
     private ImageButton modeBtn;
@@ -36,14 +40,16 @@ public class PlayActivity extends AppCompatActivity {
     private TextView allTimeTxt;
     private TextView positionTxt;
     private SeekBar timeBar;
+    // 是否处于拖动状态
+    private boolean isBusy = false;
+    private ImageView cardImage;
+    private String url = "";
+    private boolean isChanged = false;
+    private boolean isOpen = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 状态栏悬浮
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
         setContentView(R.layout.activity_play_main);
         // 初始化控件
         initContent();
@@ -52,15 +58,43 @@ public class PlayActivity extends AppCompatActivity {
     /**
      * 初始化控件
      */
-    private void initContent(){
+    private void initContent() {
+        // 初始化标题栏
+        initHeader();
+        // 初始化播放动画
+        initMusicAnimation();
+        // 初始化播放控件
+        initMusicControl();
+    }
+
+    /**
+     * 初始化播放动画
+     */
+    private void initMusicAnimation() {
+        cardImage = (ImageView) findViewById(R.id.player_animation_card);
+        assert cardImage != null;
+        cardImage.setImageBitmap(toRoundBitmap(
+                getArtImage(this, MUSIC_URL, 1)));
+    }
+
+    /**
+     * 初始化标题栏
+     */
+    private void initHeader() {
         // 设置toolbar
         toolbar = (Toolbar) findViewById(R.id.play_header);
         // 需要设置好toolbar后才能给按钮设置点击事件
         setSupportActionBar(toolbar);
         assert toolbar != null;
-        toolbar.setNavigationIcon(R.drawable.play_toolbar_return);
+        toolbar.setNavigationIcon(R.drawable.toolbar_exit);
         toolbar.setNavigationOnClickListener(new OnBackClickListener());
+        toolbar.setSubtitleTextColor(Color.WHITE);
+    }
 
+    /**
+     * 初始化播放控件
+     */
+    private void initMusicControl() {
         // 初始化播放列表按钮
         ImageButton playListBtn = (ImageButton) findViewById(R.id.play_under_music_list);
         assert playListBtn != null;
@@ -70,7 +104,7 @@ public class PlayActivity extends AppCompatActivity {
         playBtn = (ImageButton) findViewById(R.id.play_under_music_play);
         assert playBtn != null;
         // 设置播放/暂停按钮初始化图片
-        playBtn.setImageResource(ImageUtil.getPlayImage());
+//        playBtn.setImageResource(getPlayImage());
         playBtn.setOnClickListener(new OnPlayClickListener());
 
         // 初始化上一首下一首按钮
@@ -84,7 +118,7 @@ public class PlayActivity extends AppCompatActivity {
         // 初始化播放模式
         modeBtn = (ImageButton) findViewById(R.id.play_under_music_mode);
         assert modeBtn != null;
-        modeBtn.setImageResource(ImageUtil.getModeImage());
+        modeBtn.setImageResource(PlayerUtil.ImageUtil.getModeImage());
         modeBtn.setOnClickListener(new OnModeClickListener());
 
         // 注册广播接收器
@@ -97,10 +131,12 @@ public class PlayActivity extends AppCompatActivity {
         allTimeTxt = (TextView) findViewById(R.id.play_under_music_time_all);
         positionTxt = (TextView) findViewById(R.id.play_under_music_time_now);
         timeBar = (SeekBar) findViewById(R.id.play_under_music_bar);
+        timeBar.setOnSeekBarChangeListener(new OnTimeBarChangeListener());
     }
 
     /**
      * 紧接着onCreate方法之后执行，适合在onCreate方法之后执行的初始化
+     *
      * @param savedInstanceState 保存参数
      */
     @Override
@@ -116,13 +152,45 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
+    }
+
+    /**
+     * 给按钮设置动画
+     */
+    private void setPlayButtonAnim() {
+        AnimatedVectorDrawable animatedVectorDrawable =
+                (AnimatedVectorDrawable) playBtn.getDrawable();
+        if (animatedVectorDrawable.isRunning()) {
+            animatedVectorDrawable.stop();
+        } else {
+            if (isChanged){
+                playBtn.setImageResource(R.drawable.animvectordrawable_music2);
+                isChanged = false;
+            } else {
+                playBtn.setImageResource(R.drawable.animvectordrawable_music);
+                isChanged = true;
+            }
+            ((AnimatedVectorDrawable) playBtn.getDrawable()).start();
+        }
+    }
+
+    /**
+     * 设置进度条信息
+     *
+     * @param intent 意图
+     */
+    private void setProgress(Intent intent) {
+        allTimeTxt.setText(PlayerUtil.DialogUtil.changeDuration(intent.getIntExtra("time", 0)));
+        positionTxt.setText(PlayerUtil.DialogUtil.changeDuration(intent.getIntExtra("position", 0)));
+        timeBar.setMax(intent.getIntExtra("time", 0));
+        timeBar.setProgress(intent.getIntExtra("position", 0));
     }
 
     /**
@@ -154,16 +222,15 @@ public class PlayActivity extends AppCompatActivity {
         public void onClick(View v) {
             Intent intent = new Intent(PlayActivity.this, MusicPlayerService.class);
             // 判断播放器的状态
-            if (MusicPlayerService.playerOpenState){
+            if (MusicPlayerService.playerOpenState) {
                 // 暂停播放动作同时切换播放图片
                 intent.setAction(MusicPlayerService.ACTION_PAUSE);
             } else {
                 // 启动播放动作同时切换暂停图片
                 intent.setAction(MusicPlayerService.ACTION_PLAY);
             }
+
             startService(intent);
-            // 设置播放按钮图片
-            playBtn.setImageResource(ImageUtil.getPlayImage(false));
         }
     }
 
@@ -176,7 +243,11 @@ public class PlayActivity extends AppCompatActivity {
             Intent intent = new Intent(PlayActivity.this, MusicPlayerService.class);
             intent.setAction(MusicPlayerService.ACTION_NEXT);
             startService(intent);
-            playBtn.setImageResource(ImageUtil.getPlayImage(false));
+
+            playBtn.setImageResource(getMiniPlayImage(false));
+            setPlayButtonAnim();
+
+            isOpen = !isOpen;
         }
     }
 
@@ -189,7 +260,11 @@ public class PlayActivity extends AppCompatActivity {
             Intent intent = new Intent(PlayActivity.this, MusicPlayerService.class);
             intent.setAction(MusicPlayerService.ACTION_FRONT);
             startService(intent);
-            playBtn.setImageResource(ImageUtil.getPlayImage(false));
+
+            playBtn.setImageResource(getMiniPlayImage(false));
+            setPlayButtonAnim();
+
+            isOpen = !isOpen;
         }
     }
 
@@ -233,7 +308,7 @@ public class PlayActivity extends AppCompatActivity {
             }
             startService(intent);
             // 设置播放模式按钮图片
-            modeBtn.setImageResource(ImageUtil.getModeImage(mode));
+            modeBtn.setImageResource(PlayerUtil.ImageUtil.getModeImage(mode));
             Toast.makeText(PlayActivity.this, hint, Toast.LENGTH_SHORT).show();
         }
     }
@@ -241,18 +316,71 @@ public class PlayActivity extends AppCompatActivity {
     /**
      * 歌曲信息的广播接收器
      */
-    public class MusicInfoReceiver extends BroadcastReceiver{
+    public class MusicInfoReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            boolean state = intent.getBooleanExtra("state", false);
             Log.i(TAG, "onReceive: 接受了一个广播！！！");
             toolbar.setTitle(intent.getStringExtra("title"));
             toolbar.setSubtitle(intent.getStringExtra("artist"));
-            allTimeTxt.setText(DialogUtil.changeDuration(intent.getIntExtra("time", 0)));
-            positionTxt.setText(DialogUtil.changeDuration(intent.getIntExtra("position", 0)));
-            timeBar.setMax(intent.getIntExtra("time", 0));
-            timeBar.setProgress(intent.getIntExtra("position", 0));
-            playBtn.setImageResource(ImageUtil.getPlayImage(intent.getBooleanExtra("state", false)));
+            // 判断歌曲是否切换
+            if (url != null && MUSIC_URL == null) {
+                onImageChange();
+            }
+            if (url != null && !url.equals(MUSIC_URL)) {
+                onImageChange();
+            } else {
+                url = MUSIC_URL;
+            }
+
+            url = MUSIC_URL;
+            if (isOpen != state) {
+                playBtn.setImageResource(PlayerUtil.ImageUtil.getMiniPlayImage(state));
+                setPlayButtonAnim();
+            }
+            isOpen = state;
+
+            if (!isBusy) {
+                setProgress(intent);
+            }
+        }
+
+        /**
+         * 图片更改
+         */
+        private void onImageChange() {
+            Log.i(TAG, "onReceive: 更换歌手图片！！！");
+            url = MUSIC_URL;
+            cardImage.setImageBitmap(toRoundBitmap(
+                    getArtImage(PlayActivity.this, MUSIC_URL, 1)));
+        }
+    }
+
+    /**
+     * 进度条拖动事件监听
+     */
+    private class OnTimeBarChangeListener implements SeekBar.OnSeekBarChangeListener {
+        private int progress = 0;
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            this.progress = progress;
+            positionTxt.setText(PlayerUtil.DialogUtil.changeDuration(progress));
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            isBusy = true;
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            Intent intent = new Intent(PlayActivity.this, MusicPlayerService.class);
+            intent.setAction(MusicPlayerService.ACTION_PLAY);
+            intent.putExtra("progress", progress);
+            startService(intent);
+            isBusy = false;
         }
     }
 }

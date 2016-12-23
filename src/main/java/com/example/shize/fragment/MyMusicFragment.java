@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.example.shize.activity.IndexLatelyMusicActivity;
 import com.example.shize.activity.IndexLikeMusicActivity;
 import com.example.shize.activity.IndexLocalMusicActivity;
-import com.example.shize.adapter.MainIndexListAdapter;
+import com.example.shize.adapter.PlayerAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import java.util.List;
 public class MyMusicFragment extends Fragment {
 
     private List<HashMap<String, Object>> indexListData;
-    private MainIndexListAdapter adapter;
+    private PlayerAdapter.MainIndexListAdapter adapter;
     private View myMusicFragment;
     private Context context;
 
@@ -63,7 +63,7 @@ public class MyMusicFragment extends Fragment {
         hashMap3.put("image", R.drawable.main_index_lately_music_icon);
         hashMap3.put("text", getString(R.string.main_index_lately_music_text));
         indexListData.add(hashMap3);
-        adapter = new MainIndexListAdapter(context,indexListData,
+        adapter = new PlayerAdapter.MainIndexListAdapter(context,indexListData,
                 R.layout.fragment_my_music_page_index_item,new String[]{"image","text"},
                 new int[]{R.id.my_music_index_item_image,R.id.my_music_index_item_text});
         indexList.setAdapter(adapter);

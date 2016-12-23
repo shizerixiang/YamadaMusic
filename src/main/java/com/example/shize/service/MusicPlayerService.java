@@ -11,22 +11,23 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import com.example.shize.dao.MusicDao;
+import com.example.shize.dao.PlayerDao;
 import com.example.shize.entity.MP3File;
 import com.example.shize.fragment.R;
-import com.example.shize.service.dbservice.MusicService;
-import com.example.shize.util.uiutil.ImageUtil;
+import com.example.shize.util.PlayerUtil;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+
+import static com.example.shize.util.PlayerUtil.ImageUtil.getArtImage;
+import static com.example.shize.util.PlayerUtil.ImageUtil.toRoundBitmap;
 
 /**
  * 播放音乐服务
  * Created by shize on 2016/11/14.
  */
 public class MusicPlayerService extends Service {
-    private final static String TAG = "MusicPlayerService";
     // 播放动作
     public final static String ACTION_PLAY = "com.example.shize.action.ACTION_PLAY";
     public final static String ACTION_PAUSE = "com.example.shize.action.ACTION_PAUSE";
@@ -42,24 +43,27 @@ public class MusicPlayerService extends Service {
     public final static String PLAY_MODE_RANDOM = "com.example.shize.mode.RANDOM";
     // 广播接受动作
     public final static String BROADCAST_ACTION_RECEIVER = "com.example.shize.MUSIC_BROADCAST";
-
+    private final static String TAG = "MusicPlayerService";
+    private static final int NOTIFICATION_ID_BASIC = 11111;
+    // 当前播放音乐路径
+    public static String MUSIC_URL = null;
+    // 当前播放模式
+    public static String playMode = PLAY_MODE_LIST_PLAY;
+    // 播放器的状态
+    public static boolean playerOpenState = false;
     // 上一首音乐路径（用于判断上一首音乐是否暂停）
     private String path;
     // 媒体播放器
     private MediaPlayer mediaPlayer;
     // 播放位置（返回上一次暂停播放时的位置，前提是播放音乐路径相同）
     private int position = 0;
-    // 当前播放模式
-    public static String playMode = PLAY_MODE_LIST_PLAY;
     private Intent intent;
     // 播放列队服务
-    private MusicDao.PlayListMusicDao playListMusicDao;
+    private PlayerDao.MusicDao.PlayListMusicDao playListMusicDao;
     // 播放列队
     private List<MP3File> mp3Files;
     // 起始播放位置
     private int startListPosition = 0;
-    // 播放器的状态
-    public static boolean playerOpenState = false;
     // 初始化播放歌曲标题
     private String title;
     // 初始化播放歌曲歌手名
@@ -68,11 +72,12 @@ public class MusicPlayerService extends Service {
     private boolean isStopBroadcast = false;
     // 状态栏
     private NotificationManager notificationManager;
-    private static final int NOTIFICATION_ID_BASIC = 11111;
     private RemoteViews contentView;
     private Notification notification;
     // 用户是否需要关闭程序
     private boolean closeApplication = false;
+    // 记录音乐播放位置，用于对比是否发生改变
+    private int checkPosition;
 
     @Override
     public void onCreate() {
@@ -80,8 +85,9 @@ public class MusicPlayerService extends Service {
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setOnCompletionListener(new OnMusicCompletionListener());
         // 初始化播放列表
-        playListMusicDao = new MusicService(this,"Media.db",1);
+        playListMusicDao = new DBHelper.MusicService(this,"Media.db",1);
         mp3Files = playListMusicDao.findAllPlayMusic();
+        checkPosition = -1;
         // 初始化标题
         initMusicTitle();
         // 设置迷你播放器在状态栏
@@ -153,11 +159,34 @@ public class MusicPlayerService extends Service {
         // 初始化状态栏迷你播放器控件点击事件
         initStatusClick();
         notification.contentView = contentView;
+        // 播放列队一旦清空，则位置记录重置
+        if (mp3Files.size() <= 0 && checkPosition != -1) {
+            // 初始化状态栏
+            checkPosition = -1;
+            title = getString(R.string.play_header_music_name);
+            artist = getString(R.string.play_header_singer_name);
+            onStatusChange();
+        }
+        // 减少多次处理图片的负担
+        if (mp3Files.size() > 0 && checkPosition != startListPosition) {
+            // 参数变更
+            onStatusChange();
+            checkPosition = startListPosition;
+        }
+        notification.contentView.setImageViewResource(
+                R.id.notification_play, PlayerUtil.ImageUtil.getStatusPlayImage(playerOpenState));
+        notificationManager.notify(NOTIFICATION_ID_BASIC,notification);
+    }
+
+    /**
+     * 加载状态栏参数
+     */
+    private void onStatusChange() {
+        Log.i(TAG, "setStatusAttribute: 加载状态栏参数！！！");
+        notification.contentView.setImageViewBitmap(R.id.notification_icon,
+                toRoundBitmap(getArtImage(this, MUSIC_URL, 2)));
         notification.contentView.setTextViewText(R.id.notification_music_name, title);
         notification.contentView.setTextViewText(R.id.notification_singer_name, artist);
-        notification.contentView.setImageViewResource(
-                R.id.notification_play, ImageUtil.getStatusPlayImage(playerOpenState));
-        notificationManager.notify(NOTIFICATION_ID_BASIC,notification);
     }
 
     /**
@@ -258,8 +287,10 @@ public class MusicPlayerService extends Service {
             intent.putExtra("position", mediaPlayer.getCurrentPosition());
             Log.i(TAG, "run: 时间指针：" + mediaPlayer.getCurrentPosition());
             intent.putExtra("time", mp3Files.get(startListPosition).getDuration());
+            intent.putExtra("url", mp3Files.get(startListPosition).getUrl());
             intent.putExtra("state", playerOpenState);
             intent.setAction(BROADCAST_ACTION_RECEIVER);
+            MUSIC_URL = mp3Files.get(startListPosition).getUrl();
             Log.i(TAG, "run: 发送了一个广播！！！");
         } else {
             intent.putExtra("title", "歌曲名称");
@@ -269,6 +300,7 @@ public class MusicPlayerService extends Service {
             intent.putExtra("time", 1);
             intent.putExtra("state", false);
             intent.setAction(BROADCAST_ACTION_RECEIVER);
+            MUSIC_URL = null;
         }
         // 发送用户请求状态，是否需要关闭程序
         intent.putExtra("close", closeApplication);
@@ -281,13 +313,7 @@ public class MusicPlayerService extends Service {
     private void setAction() {
         switch (intent.getAction()) {
             case ACTION_PLAY:
-                if (intent.getStringExtra("position") != null) {
-                    startListPosition = Integer.parseInt(intent.getStringExtra("position"));
-                    Log.i(TAG, "setAction: startListPosition="+startListPosition);
-                }
-                if (startListPosition >= mp3Files.size()){
-                    startListPosition = 0;
-                }
+                checkIntent();
                 play(mp3Files.get(startListPosition).getUrl());
                 break;
             case ACTION_PAUSE:
@@ -310,6 +336,25 @@ public class MusicPlayerService extends Service {
                 playerOpenState = false;
                 closeApplication = true;
                 break;
+        }
+    }
+
+    /**
+     * 检测意图
+     */
+    private void checkIntent() {
+        // 判断是否拖动
+        if (intent.getIntExtra("progress", -1) != -1){
+            position = intent.getIntExtra("progress", 0);
+        }
+        // 判断是否指定播放
+        if (intent.getStringExtra("position") != null) {
+            startListPosition = Integer.parseInt(intent.getStringExtra("position"));
+            Log.i(TAG, "setAction: startListPosition="+startListPosition);
+        }
+        // 判断位置是否合法
+        if (startListPosition >= mp3Files.size()){
+            startListPosition = 0;
         }
     }
 
@@ -355,6 +400,7 @@ public class MusicPlayerService extends Service {
     private void stop() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
+            MUSIC_URL = null;
         }
         playerOpenState = false;
         position = 0;
@@ -365,6 +411,8 @@ public class MusicPlayerService extends Service {
      */
     private void next() {
         mediaPlayer.stop();
+        // 播放位置归零
+        position = 0;
         startListPosition++;
         if (startListPosition >= mp3Files.size()){
             startListPosition = 0;
@@ -377,6 +425,8 @@ public class MusicPlayerService extends Service {
      */
     private void front() {
         mediaPlayer.stop();
+        // 播放位置归零
+        position = 0;
         startListPosition--;
         if (startListPosition < 0){
             startListPosition = mp3Files.size() - 1;
@@ -454,6 +504,8 @@ public class MusicPlayerService extends Service {
         isStopBroadcast = true;
         // 关闭状态栏的悬浮栏
         stopNotification();
+        // 当服务被强制关闭时，直接结束相关所有进程
+        System.exit(0);
     }
 
     /**

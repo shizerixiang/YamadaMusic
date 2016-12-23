@@ -2,78 +2,77 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#eee"
     android:orientation="horizontal">
 
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.18"/>
+
     <ImageView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:paddingStart="14dp"
-        android:paddingEnd="14dp"
-        android:layout_weight="1"
         android:id="@+id/notification_icon"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.62"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/app_logo"/>
+        android:src="@drawable/ic_launcher"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1.8"
-        android:orientation="vertical"
-        android:id="@+id/layout_title"
-        android:gravity="center_vertical">
+        android:layout_weight="0.14"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/menu_action_bar_about"
-            android:textSize="16sp"
-            android:textColor="@color/notification_title"
-            android:id="@+id/notification_music_name"/>
+    <include layout="@layout/notification_music_info" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="14sp"
-            android:textColor="@color/notification_artist"
-            android:id="@+id/notification_singer_name"/>
-
-    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.1"/>
 
     <ImageButton
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5"
-        android:paddingStart="2dp"
-        android:paddingEnd="12dp"
-        android:scaleType="fitCenter"
-        android:background="@android:color/transparent"
         android:id="@+id/notification_play"
-        android:src="@drawable/notification_play"
-        android:contentDescription="@string/app_name"/>
-
-    <ImageButton
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.5"
-        android:paddingStart="6dp"
-        android:paddingEnd="12dp"
-        android:scaleType="fitCenter"
+        android:layout_weight="0.3"
         android:background="@android:color/transparent"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitCenter"
+        android:src="@drawable/notification_play"/>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"/>
+
+    <ImageButton
         android:id="@+id/notification_next"
-        android:src="@drawable/notification_next"
-        android:contentDescription="@string/app_name"/>
-
-    <ImageButton
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.5"
-        android:paddingStart="8dp"
-        android:paddingEnd="24dp"
-        android:scaleType="fitCenter"
+        android:layout_weight="0.26"
         android:background="@android:color/transparent"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitCenter"
+        android:src="@drawable/notification_next"/>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"/>
+
+    <ImageButton
         android:id="@+id/notification_exit"
-        android:src="@drawable/notification_exit"
-        android:contentDescription="@string/app_name"/>
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.18"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitCenter"
+        android:src="@drawable/notification_exit"/>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"/>
 
 </LinearLayout>

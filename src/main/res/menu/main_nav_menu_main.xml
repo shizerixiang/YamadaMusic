@@ -2,33 +2,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--android:checkableBehavior="single" group的选中状态属性-->
-    <group>
         <item
             android:id="@+id/nav_design"
+            android:icon="@drawable/nav_skin"
             android:title="@string/nav_item_design"/>
         <item
             android:id="@+id/nav_search"
+            android:icon="@drawable/nav_scanner"
             android:title="@string/nav_item_search"/>
         <item
             android:id="@+id/nav_listen"
+            android:icon="@drawable/nav_listen"
             android:title="@string/nav_item_listen"/>
         <item
             android:id="@+id/nav_night"
+            android:icon="@drawable/nav_night"
             android:title="@string/nav_item_night"/>
         <item
             android:id="@+id/nav_custom"
+            android:icon="@drawable/nav_clock"
             android:title="@string/nav_item_custom"/>
-    </group>
-
-    <item android:title="@string/nav_group">
-        <menu>
-            <item
-                android:id="@+id/nav_option"
-                android:title="@string/nav_item_option"/>
-            <item
-                android:id="@+id/nav_exit"
-                android:title="@string/nav_item_exit"/>
-        </menu>
-    </item>
+        <item
+            android:id="@+id/nav_option"
+            android:icon="@drawable/nav_option"
+            android:title="@string/nav_item_option"/>
+        <item
+            android:id="@+id/nav_exit"
+            android:icon="@drawable/nav_exit"
+            android:title="@string/nav_item_exit"/>
 
 </menu>

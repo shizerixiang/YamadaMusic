@@ -3,4 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include android:id="@+id/toolbar_title"
+        layout="@layout/activity_toolbar"/>
+
+    <include android:id="@+id/play_item_all"
+        layout="@layout/play_item_all"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_below="@id/toolbar_title"/>
+
+    <View
+        android:id="@+id/play_all_under_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/play_item_all"
+        android:background="@color/bg_activity_black"/>
+
 </RelativeLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/vectordrawable_music" >
+    <!--<target-->
+        <!--android:name="rotateGroup"-->
+        <!--android:animation="@anim/play_interface_rotation" />-->
+    <target
+        android:name="triangle1"
+        android:animation="@anim/play_interface_path_head" />
+    <target
+        android:name="triangle2"
+        android:animation="@anim/play_interface_path_under" />
+</animated-vector>

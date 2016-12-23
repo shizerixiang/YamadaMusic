@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/play_all"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginStart="16dp"
+    tools:showIn="@layout/play_item_all">
+
+    <ImageView
+        android:id="@+id/play_all_icon"
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/play_all"
+        android:src="@drawable/notification_play"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/play_all_icon"
+        android:gravity="center_vertical"
+        android:text="@string/play_all_text"
+        android:textColor="@color/bg_activity_black"
+        android:textSize="16sp"/>
+
+</RelativeLayout>

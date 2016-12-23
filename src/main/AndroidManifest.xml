@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/app_logo"
+        android:icon="@drawable/app_logo2"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Base">
@@ -21,7 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--采取栈内复用模式，防止多次启动activity-->
         <activity android:name="com.example.shize.activity.MainActivity"
+            android:launchMode="singleTask"
             android:theme="@style/AppNoActionBar">
 
         </activity>
@@ -30,11 +32,11 @@
 
         </activity>
         <activity android:name="com.example.shize.activity.AboutActivity"
-            android:theme="@style/Theme.AppCompat">
+            android:theme="@style/AppNoActionBar">
 
         </activity>
         <activity android:name="com.example.shize.activity.ClockActivity"
-            android:theme="@style/Theme.AppCompat">
+            android:theme="@style/AppNoActionBar">
 
         </activity>
         <activity android:name="com.example.shize.activity.ListenerActivity"
@@ -42,11 +44,11 @@
 
         </activity>
         <activity android:name="com.example.shize.activity.OptionActivity"
-            android:theme="@style/Theme.AppCompat">
+            android:theme="@style/AppNoActionBar">
 
         </activity>
         <activity android:name="com.example.shize.activity.SearchMusicActivity"
-            android:theme="@style/Theme.AppCompat">
+            android:theme="@style/AppNoActionBar">
 
         </activity>
         <activity android:name="com.example.shize.activity.SearchResultActivity"
@@ -54,19 +56,19 @@
 
         </activity>
         <activity android:name="com.example.shize.activity.ThemeActivity"
-            android:theme="@style/Theme.AppCompat">
+            android:theme="@style/AppNoActionBar">
 
         </activity>
         <activity android:name="com.example.shize.activity.IndexLocalMusicActivity"
-            android:theme="@style/Theme.AppCompat">
+            android:theme="@style/AppNoActionBar">
 
         </activity>
         <activity android:name="com.example.shize.activity.IndexLikeMusicActivity"
-            android:theme="@style/Theme.AppCompat">
+            android:theme="@style/AppNoActionBar">
 
         </activity>
         <activity android:name="com.example.shize.activity.IndexLatelyMusicActivity"
-            android:theme="@style/Theme.AppCompat">
+            android:theme="@style/AppNoActionBar">
 
         </activity>
         <activity android:name="com.example.shize.activity.PlayListActivity"
@@ -74,9 +76,9 @@
 
         </activity>
         <service
+            android:name="com.example.shize.service.MusicPlayerService"
             android:enabled="true"
-            android:exported="false"
-            android:name="com.example.shize.service.MusicPlayerService">
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.example.shize.action.ACTION_PLAY" />
                 <action android:name="com.example.shize.action.ACTION_PAUSE" />

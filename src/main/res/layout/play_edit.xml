@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/play_edit"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_alignParentEnd="true"
+    android:layout_marginEnd="16dp"
+    android:layout_marginStart="8dp"
+    tools:showIn="@layout/play_item_all">
+
+    <ImageView
+        android:id="@+id/play_edit_icon"
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/play_all"
+        android:src="@drawable/play_chooses"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@id/play_edit_icon"
+        android:gravity="center_vertical"
+        android:text="@string/play_edit_choose"
+        android:textColor="@color/bg_activity_black"
+        android:textSize="16sp"/>
+
+</RelativeLayout>

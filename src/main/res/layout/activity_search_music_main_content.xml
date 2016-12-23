@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_main_bg">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
-    <ListView
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#333"
-        android:id="@+id/search_content_music_list"/>
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:contentDescription="@string/search_image"
+        android:scaleType="fitCenter"
+        android:src="@drawable/play_action_bg" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.04"/>
+
+    <include
+        android:id="@+id/search_under_index"
+        layout="@layout/search_music_content_under"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginStart="80dp"
+        android:layout_weight="0.3"
+        android:visibility="visible"/>
+
+    <include
+        android:id="@+id/search_under_all"
+        layout="@layout/search_music_content_under_all"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginStart="80dp"
+        android:layout_weight="0.3"
+        android:visibility="gone"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.06"/>
 
 </LinearLayout>

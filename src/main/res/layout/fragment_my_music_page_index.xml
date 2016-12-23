@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="6dp"
-    android:paddingEnd="6dp">
+    android:orientation="vertical"
+    android:paddingEnd="6dp"
+    android:paddingStart="6dp">
 
     <ListView
+        android:id="@+id/fragment_my_music_index_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/index_list_divider"
         android:dividerHeight="0.4dp"
-        android:id="@+id/fragment_my_music_index_list"/>
+        android:scrollbars="none"/>
 
 </LinearLayout>

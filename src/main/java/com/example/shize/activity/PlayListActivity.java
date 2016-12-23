@@ -13,13 +13,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.shize.adapter.MusicPlayListAdapter;
-import com.example.shize.dao.ListButtonClickListener;
-import com.example.shize.dao.MusicDao;
+import com.example.shize.adapter.PlayerAdapter;
+import com.example.shize.dao.PlayerDao;
 import com.example.shize.entity.MP3File;
 import com.example.shize.fragment.R;
+import com.example.shize.service.DBHelper;
 import com.example.shize.service.MusicPlayerService;
-import com.example.shize.service.dbservice.MusicService;
+import com.example.shize.util.PlayerUtil;
 
 import java.util.List;
 
@@ -29,17 +29,17 @@ import java.util.List;
  */
 
 public class PlayListActivity extends Activity {
-    private MusicDao.PlayListMusicDao playListMusicDao;
-    private List<MP3File> mp3Files;
-    private MusicPlayListAdapter adapter;
     private final static String TAG = "playList";
+    private PlayerDao.MusicDao.PlayListMusicDao playListMusicDao;
+    private List<MP3File> mp3Files;
+    private PlayerAdapter.MusicPlayListAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_list_main);
         initWindow();
-        playListMusicDao = new MusicService(this,"Media.db",1);
+        playListMusicDao = new DBHelper.MusicService(this,"Media.db",1);
         initPlayList();
     }
 
@@ -52,12 +52,13 @@ public class PlayListActivity extends Activity {
 
         ListView playList = (ListView) findViewById(R.id.play_list_list_view);
         mp3Files = playListMusicDao.findAllPlayMusic();
-        adapter = new MusicPlayListAdapter(this, mp3Files);
+        adapter = new PlayerAdapter.MusicPlayListAdapter(this, mp3Files);
         adapter.setListButtonClickListener(new ListDeleteClickListener());
         playList.setAdapter(adapter);
         Log.i(TAG, "initPlayList: 初始化之前！！！");
         playList.setOnItemClickListener(new OnPlayListClickListener());
         Log.i(TAG, "initPlayList: 初始化之后！！！");
+        playList.setLayoutAnimation(PlayerUtil.AnimationUtil.getListFlyAnimation());
     }
 
     /**
@@ -72,6 +73,17 @@ public class PlayListActivity extends Activity {
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.gravity = Gravity.BOTTOM;
         window.setAttributes(layoutParams);
+    }
+
+    /**
+     * 关闭activity调用该方法
+     */
+    @Override
+    public void finish() {
+        super.finish();
+        // 设置关闭动画
+        overridePendingTransition(R.anim.play_list_bottom_in,
+                R.anim.play_list_bottom_out);
     }
 
     /**
@@ -92,7 +104,7 @@ public class PlayListActivity extends Activity {
     /**
      * 播放列队删除按钮点击事件监听类
      */
-    private class ListDeleteClickListener implements ListButtonClickListener {
+    private class ListDeleteClickListener implements PlayerDao.ListButtonClickListener {
         @Override
         public void onDeleteClick(String url, int position) {
             Log.i(TAG, "onDeleteClick: 点击删除按钮！！！");

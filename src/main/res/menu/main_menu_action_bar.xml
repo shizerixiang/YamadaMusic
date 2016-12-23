@@ -2,24 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="@string/menu_action_bar_search"
-        app:actionViewClass="android.widget.SearchView"
-        android:id="@+id/menu_action_bar_search"
-        android:icon="@mipmap/toolbar_menu_item_search"
+    <item android:id="@+id/menu_action_bar_search"
+        android:icon="@drawable/main_icon_search"
+        android:title="@string/menu_action_bar_search"
         app:showAsAction="ifRoom|collapseActionView" />
 
-    <item android:title="@string/menu_action_bar_collection"
-        android:icon="@mipmap/toolbar_menu_item_collection"
-        android:id="@+id/menu_action_bar_collection"
-        app:showAsAction="ifRoom"/>
+    <!--<item android:title="@string/menu_action_bar_collection"-->
+        <!--android:icon="@drawable/main_icon_like"-->
+        <!--android:id="@+id/menu_action_bar_collection"-->
+        <!--app:showAsAction="ifRoom"/>-->
 
-    <item android:title="@string/menu_action_bar_option"
-        android:id="@+id/menu_action_bar_option"/>
+    <item android:id="@+id/menu_action_bar_option"
+        android:title="@string/menu_action_bar_option"/>
 
-    <item android:title="@string/menu_action_bar_about"
-        android:id="@+id/menu_action_bar_about"/>
+    <item android:id="@+id/menu_action_bar_about"
+        android:title="@string/menu_action_bar_about"/>
 
-    <item android:title="@string/menu_action_bar_exit"
-        android:id="@+id/menu_action_bar_exit"/>
+    <item android:id="@+id/menu_action_bar_exit"
+        android:title="@string/menu_action_bar_exit"/>
 
 </menu>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:orientation="horizontal"
+    tools:showIn="@layout/activity_play_list_main_item">
+
+    <TextView
+        android:id="@+id/play_list_item_music_name"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxWidth="200dp"
+        android:text="@string/main_under_music_name"
+        android:textColor="@color/play_list_music_name"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="12dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:paddingEnd="2dp"
+        android:paddingStart="4dp"
+        android:text="@string/play_list_under_line"
+        android:textColor="@color/play_list_clear"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/play_list_item_singer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:maxWidth="100dp"
+        android:text="@string/main_under_singer_name"
+        android:textColor="@color/play_list_clear"
+        android:textSize="12sp" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1.7" />
+
+    <!--事件拦截，按钮将事件拦截，未发送给listView-->
+    <ImageButton
+        android:id="@+id/play_list_delete"
+        android:layout_width="14dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="18dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/play_list_delete"
+        android:scaleType="fitCenter"
+        android:src="@drawable/play_list_delete_image" />
+
+</LinearLayout>

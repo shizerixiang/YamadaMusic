@@ -1,35 +1,108 @@
 <resources>
 
+    <!--应用整体主题样式-->
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="colorPrimary">@color/colorAccent</item>
-        <item name="colorPrimaryDark">@color/colorAccent</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme" parent="AppTheme.Base" >
-        <item name="android:navigationBarColor">@color/baseBarColor</item>
+    <!--无标题样式-->
+    <style name="AppNoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+        <!--<item name="colorPrimary">@color/colorAccent</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorAccent</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <!--<item name="android:itemBackground">@color/baseBarColor</item>-->
     </style>
 
-    <style name="AppNoActionBar" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/colorAccent</item>
-        <item name="colorPrimaryDark">@color/colorAccent</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:itemBackground">@color/baseBarColor</item>
-    </style>
-
+    <!--播放列表activity样式-->
     <!--背景变暗属性backgroundDimEnabled-->
-    <style name="ThemeFloatActivity" parent="android:Theme.Dialog">
+    <style name="ThemeFloatActivity" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <!--toolbar样式-->
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:actionMenuTextColor">@android:color/white</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">marquee</item>
+    </style>
+
+    <!--popup样式-->
+    <style name="PopupTheme" parent="@style/ThemeOverlay.AppCompat">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <!--播放列表动画样式-->
     <style name="DialogAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/play_list_bottom_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/play_list_bottom_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/play_list_bottom_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/play_list_bottom_out</item>
+    </style>
+
+    <!--弹出框动画样式-->
+    <style name="AlertAnimation" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@anim/play_list_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/play_list_bottom_out</item>
+    </style>
+
+    <!--Activity动画样式-->
+    <style name="ActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_out</item>
+    </style>
+
+    <!--扫描进度条样式-->
+    <style name="SearchProgressBar" parent="@android:style/Widget.ProgressBar.Horizontal">
+        <item name="android:maxHeight">10dp</item>
+        <item name="android:minHeight">5dp</item>
+        <item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>
+        <item name="android:progressDrawable">@drawable/search_progress_bar</item>
+    </style>
+
+    <!--音乐菜单弹窗主题-->
+    <style name="MessageDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:background">@android:color/white</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+    
+    <!--SeekBar样式-->
+    <style name="MusicSeekBar" parent="@android:style/Widget.SeekBar">
+        <item name="android:maxHeight">4dp</item>
+        <item name="android:minHeight">2dp</item>
+        <item name="android:indeterminate">false</item>
+        <item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>
+        <item name="android:progressDrawable">@drawable/seek_bar_progress</item>
+        <item name="android:thumb">@drawable/seek_bar_thumb</item>
+        <item name="android:thumbOffset">4dp</item>
+    </style>
+    
+    <!--过渡样式主题-->
+    <style name="TransitionAnimation" parent="AppNoActionBar">
+        <!--允许使用transitions-->
+        <item name="android:windowContentTransitions">true</item>
+        <!--指定进入和退出transitions-->
+        <item name="android:windowEnterTransition">@transition/transition_main_mini</item>
+        <item name="android:windowExitTransition">@transition/transition_main_mini</item>
+        <!--指定shared element transitions-->
+        <!--<item name="android:windowSharedElementEnterTransition"></item>-->
+        <!--<item name="android:windowSharedElementExitTransition"></item>-->
     </style>
 
 </resources>

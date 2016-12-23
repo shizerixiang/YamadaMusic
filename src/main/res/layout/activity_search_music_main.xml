@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/activity_main_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_toolbar" />
 
     <include
-        layout="@layout/activity_search_music_main_content"
+        layout="@layout/search_music_content_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:id="@+id/search_music_button_search"
-        android:text="@string/start_search_music"/>
+        android:layout_weight="1" />
 
 </LinearLayout>

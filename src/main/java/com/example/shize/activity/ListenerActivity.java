@@ -1,9 +1,8 @@
 package com.example.shize.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.example.shize.fragment.R;
 
@@ -11,29 +10,34 @@ import com.example.shize.fragment.R;
  * 听歌识曲界面
  * Created by shize on 2016/11/14.
  */
-public class ListenerActivity extends AppCompatActivity {
+public class ListenerActivity extends TransparentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listener_main);
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        initHeader();
     }
 
     /**
-     * 返回按钮
-     * @param item actionBar子项
-     * @return 是否拦截
+     * 初始化标题栏
      */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                finish();
-                break;
+    private void initHeader(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        assert toolbar != null;
+        toolbar.setTitle(getString(R.string.nav_item_listen));
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.toolbar_exit);
+        toolbar.setNavigationOnClickListener(new OnBackClickListener());
+    }
+
+    /**
+     * 返回按钮点击事件监听类
+     */
+    private class OnBackClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            ListenerActivity.this.finish();
         }
-        return true;
     }
 }

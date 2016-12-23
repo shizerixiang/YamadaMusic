@@ -10,14 +10,14 @@
     <color name="activity_main_tab_text_selected">#00ff00</color>
     <color name="activity_main_tab_text">#333333</color>
     <color name="activity_main_bg">#ffffff</color>
-    <color name="nav_bg">#333333</color>
-    <color name="nav_text_color">#ffffff</color>
+    <color name="nav_bg">#fff</color>
+    <color name="nav_text_color">#333</color>
     <color name="nav_header_color">#aaaaaa</color>
     <color name="main_under_bg">#aaaaaa</color>
     <color name="under_text_color">#ffffff</color>
-    <color name="play_activity_bg_center">#66666666</color>
-    <color name="play_activity_bg_end">#77999999</color>
-    <color name="play_activity_bg_start">#99111111</color>
+    <color name="play_activity_bg_center">#44666666</color>
+    <color name="play_activity_bg_end">#55999999</color>
+    <color name="play_activity_bg_start">#77111111</color>
     <color name="play_header_music_name_color">#ffffff</color>
     <color name="play_header_music_singer_color">#88ffffff</color>
     <color name="index_list_divider">#707070</color>
@@ -28,4 +28,15 @@
     <color name="play_list_music_name">#333</color>
     <color name="notification_title">#ee333333</color>
     <color name="notification_artist">#aa333333</color>
+    <color name="red">#e9112f</color>
+    <color name="bg_activity_black">#333333</color>
+    <color name="play_activity_bg_touch_center">#cc444444</color>
+    <color name="play_activity_bg_touch_end">#ee777777</color>
+    <color name="play_activity_bg_touch_start">#ff000000</color>
+    <color name="mini_player_black">#85a</color>
+    <color name="mini_player_click">#c901</color>
+    <color name="hint_text_color">#666</color>
+    <color name="icon_text_color">#333</color>
+    <color name="top_color">#eeeeee</color>
+    <color name="down_color">#f4e43f</color>
 </resources>
